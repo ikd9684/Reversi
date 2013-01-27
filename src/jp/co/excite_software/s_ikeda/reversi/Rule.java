@@ -17,7 +17,7 @@ public interface Rule {
         },
     }
 
-    public Disc getlnitialDisc();
+    public Disc getInitialDisc();
 
     public Disc getTurn();
 

@@ -66,7 +66,51 @@ public class Board {
     }
 
     public int getCountBlack() {
+        int black = 0;
+        for (int y = 0; y < status.length; y++) {
+            for (int x = 0; x < status[0].length; x++) {
+                if (status[y][x] == Disc.BLACK) {
+                    black++;
+                }
+            }
+        }
+        return black;
+    }
+    public int getCountWhite() {
         int white = 0;
+        for (int y = 0; y < status.length; y++) {
+            for (int x = 0; x < status[0].length; x++) {
+                if (status[y][x] == Disc.WHITE) {
+                    white++;
+                }
+            }
+        }
+        return white;
+    }
+
+    public Disc getWinner() {
+        return this.rule.getWinner();
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("  1 2 3 4 5 6 7 8" + LN);
+        for (int y = 0; y < status.length; y++) {
+            sb.append((y + 1) + " ");
+            for (int x = 0; x < status[0].length; x++) {
+                if (status[y][x] == null) {
+                    sb.append("・");
+                }
+                else {
+                    sb.append(status[y][x]);
+                }
+            }
+            sb.append(LN);
+        }
+        return sb.toString();
     }
 
 }
