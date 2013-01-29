@@ -46,6 +46,13 @@ public class Board {
         return this.rule.isDoublePass();
     }
 
+    public boolean isOverPassBlack() {
+        return this.rule.isOverPassBlack();
+    }
+    public boolean isOverPassWhite() {
+        return this.rule.isOverPassWhite();
+    }
+
     public void setDisc(int x, int y) throws ViolationException {
         this.status = this.rule.setDisc(x, y, getTurn());
         this.rule.changeTurn();
@@ -101,12 +108,7 @@ public class Board {
         for (int y = 0; y < status.length; y++) {
             sb.append((y + 1) + " ");
             for (int x = 0; x < status[0].length; x++) {
-                if (status[y][x] == null) {
-                    sb.append("・");
-                }
-                else {
-                    sb.append(status[y][x]);
-                }
+                sb.append(status[y][x]);
             }
             sb.append(LN);
         }

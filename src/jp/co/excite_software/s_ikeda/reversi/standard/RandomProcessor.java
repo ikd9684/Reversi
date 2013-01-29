@@ -21,7 +21,7 @@ public class RandomProcessor extends Processor {
 
     @Override
     public String getDescription() {
-        return "石を置ける場所にただランダムに置くだけです。";
+        return "It only merely puts on the place which can place a stone at random.";
     }
 
     @Override
@@ -56,7 +56,7 @@ public class RandomProcessor extends Processor {
         if (y < 0 || size <= y || x < 0 || size <= x) {
             return false;
         }
-        if (status[y][x] != null) {
+        if (status[y][x] != Disc.NULL) {
             return false;
         }
 
@@ -83,7 +83,7 @@ public class RandomProcessor extends Processor {
                 ; sx += dx, sy += dy) {
 
             Disc d = status[sy][sx];
-            if (d == null) {
+            if (d == Disc.NULL) {
                 break;
             }
             if (!negative && d != myDisc) {

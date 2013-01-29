@@ -11,14 +11,14 @@ public class StandardRule implements Rule {
 
     /**  */
     private static Disc[][] DEFAULT_STATUS = {
-        { null, null, null, null,       null,       null, null, null },
-        { null, null, null, null,       null,       null, null, null },
-        { null, null, null, null,       null,       null, null, null },
-        { null, null, null, Disc.WHITE, Disc.BLACK, null, null, null },
-        { null, null, null, Disc.BLACK, Disc.WHITE, null, null, null },
-        { null, null, null, null,       null,       null, null, null },
-        { null, null, null, null,       null,       null, null, null },
-        { null, null, null, null,       null,       null, null, null },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.NULL,  Disc.NULL,  Disc.NULL, Disc.NULL, Disc.NULL },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.NULL,  Disc.NULL,  Disc.NULL, Disc.NULL, Disc.NULL },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.NULL,  Disc.NULL,  Disc.NULL, Disc.NULL, Disc.NULL },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.WHITE, Disc.BLACK, Disc.NULL, Disc.NULL, Disc.NULL },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.BLACK, Disc.WHITE, Disc.NULL, Disc.NULL, Disc.NULL },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.NULL,  Disc.NULL,  Disc.NULL, Disc.NULL, Disc.NULL },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.NULL,  Disc.NULL,  Disc.NULL, Disc.NULL, Disc.NULL },
+        { Disc.NULL, Disc.NULL, Disc.NULL, Disc.NULL,  Disc.NULL,  Disc.NULL, Disc.NULL, Disc.NULL },
     };
 
     /**  */
@@ -100,7 +100,7 @@ public class StandardRule implements Rule {
         if (y < 0 || SIZE <= y || x < 0 || SIZE <= x) {
             throw new ViolationException("盤の外へは置けません。");
         }
-        if (status[y][x] != null) {
+        if (status[y][x] != Disc.NULL) {
             throw new ViolationException("指定した位置にはすでに石があります。");
         }
 
@@ -138,7 +138,7 @@ public class StandardRule implements Rule {
                 ; sx += dx, sy += dy) {
 
             Disc d = status[sy][sx];
-            if (d == null) {
+            if (d == Disc.NULL) {
                 break;
             }
             if (!negative && d != disc) {
@@ -180,7 +180,7 @@ public class StandardRule implements Rule {
         Disc[][] status = board.getStatus();
         for (int y = 0; y < status.length; y++) {
             for (int x = 0; x < status.length; x++) {
-                if (status[y][x] == null) {
+                if (status[y][x] == Disc.NULL) {
                     return false;
                 }
             }

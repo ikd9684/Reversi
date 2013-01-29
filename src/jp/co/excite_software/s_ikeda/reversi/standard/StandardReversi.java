@@ -28,9 +28,8 @@ public class StandardReversi {
             br = new BufferedReader(isr);
 
             Processor procA = new RandomProcessor();
+//            Processor procA = null;
             Processor procB = new RandomProcessor();
-            int passBlack, passWhite;
-            passBlack = passWhite = 3;
 
             final int sleep = 100;
             do {
@@ -50,18 +49,10 @@ public class StandardReversi {
                         move = procA.doMove(board);
                         sleep(sleep);
                     }
-
-                    if (move.isPass()) {
-                        passBlack--;
-                    }
                 }
                 else {
                     move = procB.doMove(board);
                     sleep(sleep);
-
-                    if (move.isPass()) {
-                        passWhite--;
-                    }
                 }
 
                 if (move.isPass()) {
@@ -94,10 +85,10 @@ public class StandardReversi {
             System.out.println(Disc.BLACK + "=" + board.getCountBlack()
                     + " 対 " + board.getCountWhite() + "=" + Disc.WHITE);
 
-            if (!board.isDoublePass() && passBlack == 0) {
+            if (!board.isDoublePass() && board.isOverPassBlack()) {
                 System.out.println("“" + Disc.BLACK + "”が３回パスしたため“" + Disc.WHITE + "”の勝ちです。");
             }
-            else if (!board.isDoublePass() && passWhite == 0) {
+            else if (!board.isDoublePass() && board.isOverPassWhite()) {
                 System.out.println("“" + Disc.WHITE + "”が３回パスしたため“" + Disc.BLACK + "”の勝ちです。");
             }
             else {

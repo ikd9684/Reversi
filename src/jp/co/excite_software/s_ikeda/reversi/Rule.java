@@ -12,9 +12,15 @@ public interface Rule {
         WHITE {
             @Override
             public String toString() {
-                return  "○";
+                return "○";
             }
         },
+        NULL {
+            @Override
+            public String toString() {
+                return "・";
+            }
+        }
     }
 
     public Disc getInitialDisc();
