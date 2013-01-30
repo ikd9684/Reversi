@@ -1,5 +1,7 @@
 package jp.co.excite_software.s_ikeda.reversi;
 
+import jp.co.excite_software.s_ikeda.reversi.Rule.Disc;
+
 abstract public class Processor {
 
     abstract public String getProcessorName();
@@ -8,7 +10,7 @@ abstract public class Processor {
 
     abstract public String getDescription();
 
-    abstract public Move doMove(Board board);
+    abstract public Move doMove(Disc[][] status, Disc myDisc);
 
     public static class Move {
         public static final Move PASS = new Move(-1, -1);

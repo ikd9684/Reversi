@@ -8,6 +8,8 @@ public class StandardRule implements Rule {
 
     /**  */
     private static final int SIZE = 8;
+    /**  */
+    private static final int MAX_PASS_TIME = 3;
 
     /**  */
     private static Disc[][] DEFAULT_STATUS = {
@@ -31,7 +33,7 @@ public class StandardRule implements Rule {
     }
 
     @Override
-    public void setBoard(Board board) {
+    public void init(Board board) {
         this.board = board;
     }
 
@@ -45,8 +47,8 @@ public class StandardRule implements Rule {
     }
 
     private int doublePass = 0;
-    private int whitePass = 3;
-    private int blackPass = whitePass;
+    private int whiteLastPassTime = MAX_PASS_TIME;
+    private int blackPass = whiteLastPassTime;
     @Override
     public void pass() {
         doublePass++;
@@ -54,7 +56,7 @@ public class StandardRule implements Rule {
             blackPass--;
         }
         if (this.thisTurn == Disc.WHITE) {
-            whitePass--;
+            whiteLastPassTime--;
         }
         changeTurn();
     }
@@ -69,7 +71,7 @@ public class StandardRule implements Rule {
     }
     @Override
     public boolean isOverPassWhite() {
-        return whitePass == 0;
+        return whiteLastPassTime == 0;
     }
 
     @Override

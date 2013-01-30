@@ -1,12 +1,13 @@
 package jp.co.excite_software.s_ikeda.reversi;
 
 import jp.co.excite_software.s_ikeda.reversi.Rule.Disc;
+import jp.co.excite_software.s_ikeda.reversi.Rule.EndReason;
 
 /**
  * @author ikd9684
  *
  */
-public class Board {
+abstract public class Board {
 
     /**  */
     public static final String LN = System.getProperty("line.separator");
@@ -21,41 +22,8 @@ public class Board {
             throw new NullPointerException("Rule は必ず設定してください。");
         }
         this.rule = rule;
-        this.rule.setBoard(this);
-        this.status = new Disc[rule.getSize()][rule.getSize()];
-    }
-
-    public Board(Rule rule, Disc[][] newStatus) {
-        this(rule);
-        this.status = newStatus;
-    }
-
-    public int getSize() {
-        return this.rule.getSize();
-    }
-
-    public Disc getTurn() {
-        return this.rule.getTurn();
-    }
-
-    public void pass() {
-        this.rule.pass();
-    }
-
-    public boolean isDoublePass() {
-        return this.rule.isDoublePass();
-    }
-
-    public boolean isOverPassBlack() {
-        return this.rule.isOverPassBlack();
-    }
-    public boolean isOverPassWhite() {
-        return this.rule.isOverPassWhite();
-    }
-
-    public void setDisc(int x, int y) throws ViolationException {
-        this.status = this.rule.setDisc(x, y, getTurn());
-        this.rule.changeTurn();
+        this.rule.init(this);
+        this.status = this.rule.getDefaultStatus();
     }
 
     public Disc[][] getStatus() {
@@ -68,8 +36,28 @@ public class Board {
         return retStatus;
     }
 
-    public boolean isFinish() {
+    protected Disc getTurn() {
+        return this.rule.getTurn();
+    }
+
+    protected void pass() {
+        this.rule.pass();
+    }
+
+    protected void setDisc(int x, int y, Disc disc) throws ViolationException {
+        this.status = this.rule.setDisc(x, y, disc);
+    }
+
+    protected boolean isFinish() {
         return this.rule.isFinish();
+    }
+
+    protected Disc getWinner() {
+        return this.rule.getWinner();
+    }
+
+    protected EndReason getendEndReason() {
+        return this.rule.getEnrReason();
     }
 
     public int getCountBlack() {
@@ -95,9 +83,7 @@ public class Board {
         return white;
     }
 
-    public Disc getWinner() {
-        return this.rule.getWinner();
-    }
+    abstract public void start();
 
     @Override
     public String toString() {

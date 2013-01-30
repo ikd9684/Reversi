@@ -23,6 +23,10 @@ public interface Rule {
         }
     }
 
+    public void init(Board board);
+
+    public Disc[][] getDefaultStatus();
+
     public Disc getInitialDisc();
 
     public Disc getTurn();
@@ -31,20 +35,17 @@ public interface Rule {
 
     public boolean isDoublePass();
 
-    public boolean isOverPassBlack();
-
-    public boolean isOverPassWhite();
-
-    public void changeTurn();
-
     public int getSize();
-
-    public void setBoard(Board board);
 
     public Disc[][] setDisc(int x, int y, Disc disc) throws ViolationException;
 
     public boolean isFinish();
 
     public Disc getWinner();
+
+    public EndReason getEnrReason();
+
+    abstract public class EndReason {
+    }
 
 }
