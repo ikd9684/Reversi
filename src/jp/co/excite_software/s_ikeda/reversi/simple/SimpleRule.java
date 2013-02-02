@@ -1,10 +1,10 @@
-package jp.co.excite_software.s_ikeda.reversi.standard;
+package jp.co.excite_software.s_ikeda.reversi.simple;
 
 import jp.co.excite_software.s_ikeda.reversi.Board;
 import jp.co.excite_software.s_ikeda.reversi.Rule;
 import jp.co.excite_software.s_ikeda.reversi.ViolationException;
 
-public class StandardRule implements Rule {
+public class SimpleRule implements Rule {
 
     /**  */
     private static final int SIZE = 8;
@@ -28,7 +28,7 @@ public class StandardRule implements Rule {
     /**  */
     private Disc thisTurn;
 
-    public StandardRule() {
+    public SimpleRule() {
         this.thisTurn = this.getInitialDisc();
     }
 
@@ -65,16 +65,13 @@ public class StandardRule implements Rule {
     public boolean isDoublePass() {
         return doublePass == 2;
     }
-    @Override
     public boolean isOverPassBlack() {
         return blackPass == 0;
     }
-    @Override
     public boolean isOverPassWhite() {
         return whiteLastPassTime == 0;
     }
 
-    @Override
     public void changeTurn() {
         this.thisTurn = (this.thisTurn == Disc.BLACK) ? Disc.WHITE : Disc.BLACK;
     }
@@ -83,7 +80,8 @@ public class StandardRule implements Rule {
     public int getSize() {
         return SIZE;
     }
-    public static Disc[][] getDefaultStatus() {
+    @Override
+    public Disc[][] getDefaultStatus() {
 
         Disc[][] deepCopy = new Disc[SIZE][SIZE];
         for (int y = 0; y < DEFAULT_STATUS.length; y++) {
@@ -100,17 +98,19 @@ public class StandardRule implements Rule {
         Disc[][] status = board.getStatus();
 
         if (y < 0 || SIZE <= y || x < 0 || SIZE <= x) {
-            throw new ViolationException("盤の外へは置けません。");
+            throw new IndexOutOfBoundsViolation();
         }
         if (status[y][x] != Disc.NULL) {
-            throw new ViolationException("指定した位置にはすでに石があります。");
+            throw new AlreadyExistsViolation();
         }
 
         if (!reverse(status, x, y, disc)) {
-            throw new ViolationException("ひとつも石を取れないところには置けません。");
+            throw new NothingCanTakeViolation();
         }
 
         doublePass = 0;
+
+        changeTurn();
 
         status[y][x] = disc;
         return status;
@@ -169,13 +169,7 @@ public class StandardRule implements Rule {
     @Override
     public boolean isFinish() {
 
-        if (isDoublePass()) {
-            return true;
-        }
-        if (isOverPassBlack()) {
-            return true;
-        }
-        if (isOverPassWhite()) {
+        if (isDoublePass() || isOverPassBlack() || isOverPassWhite()) {
             return true;
         }
 
@@ -201,7 +195,34 @@ public class StandardRule implements Rule {
         if (white < black) {
             return Disc.BLACK;
         }
-        return null;
+        return Disc.NULL;
+    }
+
+    @Override
+    public EndReason getEnrReason() {
+        return new SimpleEndReason();
+    }
+
+    public class SimpleEndReason extends EndReason {
+        public boolean isDoublePass() {
+            return SimpleRule.this.isDoublePass();
+        }
+        public boolean isOverPassBlack() {
+            return SimpleRule.this.isOverPassBlack();
+        }
+        public boolean isOverPassWhite() {
+            return SimpleRule.this.isOverPassWhite();
+        }
+    }
+
+    public static class IndexOutOfBoundsViolation extends ViolationException {
+        private static final long serialVersionUID = 1L;
+    }
+    public static class AlreadyExistsViolation extends ViolationException {
+        private static final long serialVersionUID = 1L;
+    }
+    public static class NothingCanTakeViolation extends ViolationException {
+        private static final long serialVersionUID = 1L;
     }
 
 }

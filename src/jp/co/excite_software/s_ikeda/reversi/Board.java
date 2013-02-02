@@ -90,7 +90,11 @@ abstract public class Board {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("  1 2 3 4 5 6 7 8" + LN);
+        sb.append(" ");
+        for (int i = 0; 0 < status.length && i < status[0].length; i++) {
+            sb.append(" " + (i + 1));
+        }
+        sb.append(LN);
         for (int y = 0; y < status.length; y++) {
             sb.append((y + 1) + " ");
             for (int x = 0; x < status[0].length; x++) {

@@ -1,13 +1,12 @@
-package jp.co.excite_software.s_ikeda.reversi.standard;
+package jp.co.excite_software.s_ikeda.reversi.simple.processor;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import jp.co.excite_software.s_ikeda.reversi.Board;
 import jp.co.excite_software.s_ikeda.reversi.Processor;
 import jp.co.excite_software.s_ikeda.reversi.Rule.Disc;
 
-public class RandomProcessor extends Processor {
+public class SimpleRandomProcessor extends Processor {
 
     @Override
     public String getProcessorName() {
@@ -16,7 +15,7 @@ public class RandomProcessor extends Processor {
 
     @Override
     public String getAuthor() {
-        return "ikd9684@gmail.com";
+        return "s-ikeda@excite-software.co.jp";
     }
 
     @Override
@@ -25,11 +24,21 @@ public class RandomProcessor extends Processor {
     }
 
     @Override
-    public Move doMove(Board board) {
+    public Move doMove(Disc[][] status, Disc myDisc) {
 
-        Disc[][] status = board.getStatus();
-        int size = board.getSize();
-        Disc myDisc = board.getTurn();
+        ArrayList<Move> moveList = getMoveList(status, myDisc);
+        if (moveList.isEmpty()) {
+            // pass
+            return Move.PASS;
+        }
+        Random rnd = new Random(System.currentTimeMillis());
+        int ix = rnd.nextInt(moveList.size());
+        return moveList.get(ix);
+    }
+
+    protected ArrayList<Move> getMoveList(Disc[][] status, Disc myDisc) {
+
+        int size = status.length;
 
         ArrayList<Move> moveList = new ArrayList<Move>();
         for (int y = 0; y < size; y++) {
@@ -39,17 +48,10 @@ public class RandomProcessor extends Processor {
                 }
             }
         }
-        int s = moveList.size();
-        if (s < 1) {
-            // pass
-            return Move.PASS;
-        }
-        Random rnd = new Random(System.currentTimeMillis());
-        int ix = rnd.nextInt(s);
-        return moveList.get(ix);
+        return moveList;
     }
 
-    private boolean isValid(Disc[][] status, int x, int y, Disc myDisc) {
+    protected boolean isValid(Disc[][] status, int x, int y, Disc myDisc) {
 
         int size = status.length;
 
