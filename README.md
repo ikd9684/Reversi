@@ -1,9 +1,8 @@
 Reversi
 =======
-リバーシの基本的なルール、進行、指し手を構成する、
-プログラム同士の対戦を目的とした、教育用のクラス群です。
-
-[image]: http://instacode.linology.info/56475
+リバーシの基本的なルール、進行、指し手を構成する、プログラム同士の対戦が可能な教育用のクラス群です。  
+  
+![Instacode](http://instacode.linology.info/file/56475)
 
 
 使い方
